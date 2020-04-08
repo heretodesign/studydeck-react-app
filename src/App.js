@@ -2,8 +2,14 @@ import React from 'react';
 import './App.css'
 import './normalize.css'
 import CardPreview from './components/CardPreview'
+import cardServices, { getCards } from './services/cardServices'
 
 function App() {
+  const [cards, setCards] = React.useState([])
+  React.useEffect(() => {
+    getCards().then(setCards)
+  }, [])
+     
   return (
     <div>
       <header>
@@ -12,10 +18,15 @@ function App() {
       </header>
       <main>
         <h3>Your Cards</h3>
+        {/* <pre>{JSON.stringify(cards, null, 2)}</pre> */}
         <div className="gridContainer">
-         <CardPreview definition="woof" term="What does a dog say yea?" />
-         <CardPreview definition="quack" term="What does a duck say yea?" />
-         <CardPreview definition="moo" term="What does a cow say yea?" />
+          {cards.map(({id, definition, term}) => (
+            <CardPreview 
+              key={id} 
+              definition={definition} 
+              term={term}
+            />
+          ))}
         </div>
       </main>
     </div>
