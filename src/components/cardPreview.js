@@ -1,14 +1,21 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types'
 
+function CardPreview(props) {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const [isFront, setIsFront] = useState(true)
+    function handleCardFlip() {
+        setIsFront(current => !current)
+    }
 
-const cardPreview = (props) => {
     return (
         <>
-        <div className="title">
-            <h4 className="cardTerm">{props.term}</h4>
+        <div className={`tile ${isFront ? '' : 'back'}`}>
+            <h4 className="cardTerm">{isFront ? props.term : props.definition}</h4>
             <div className="cardButtons">
-              <button className="tertiary" type="button">show button</button>
+                <button className="tertiary" type="button" onClick={handleCardFlip}>
+                  {isFront ? 'show back' : 'show front'}
+                </button>
               <div>
                 <button className="secondary" type="button">edit button</button>
                 <button className="secondary danger" type="button">delete button</button>
@@ -16,13 +23,12 @@ const cardPreview = (props) => {
             </div>
           </div>
         </>
-    );
-};
+    )
+}
 
+CardPreview.propTypes = {
 
-cardPreview.propTypes = {
+}
 
-};
+export default CardPreview;
 
-
-export default cardPreview;
