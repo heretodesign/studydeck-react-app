@@ -3,13 +3,13 @@ import PropTypes from 'prop-types'
 import { destroyCard } from '../services/cardServices'
 import {CardForm} from './CardForm'
 
-function CardPreview({ onRemove, ...card }) {
+function CardPreview({ onRemove, onUpdate, ...card }) {
   const [isEditMode, setIsEditMode] = React.useState(false)
   function handleToggleEdit() {
     setIsEditMode(current => !current)
   }
   return isEditMode ? (
-    <CardForm onCancel={handleToggleEdit} />
+    <CardForm onCancel={handleToggleEdit} onSave={onUpdate} card={card} />
     ) : 
     <View {...card} onEdit={handleToggleEdit} onRemove={onRemove} />
 }

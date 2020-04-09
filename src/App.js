@@ -1,9 +1,10 @@
 import React from 'react';
+import {Router} from '@reach/router'
 import './App.css'
 import './normalize.css'
-import CardPreview from './components/CardPreview'
 import { getCards } from './services/cardServices'
-import { CardForm } from './components/CardForm'
+import CardList from './components/CardList'
+import Practice from './components/Practice'
 
 function App() {
   const [cards, setCards] = React.useState([])
@@ -19,6 +20,10 @@ function App() {
     setCards(existing => [...existing, card])
   }
 
+  function handleUpdate(card) {
+    setCards(existing => existing.map(c => (c.id === card.id ? card : c)))
+  }
+
   return (
     <div>
       <header>
@@ -26,18 +31,16 @@ function App() {
         <h2>Retention through repetition</h2>
       </header>
       <main>
-        <h3>Your Cards</h3>
-        {/* <pre>{JSON.stringify(cards, null, 2)}</pre> */}
-        <div className="gridContainer">
-          <CardForm onSave={handleAdd} />
-          {cards.map((card) => (
-            <CardPreview 
-              key={card.id} 
-              {...card} 
-              onRemove={handleRemove}
-            />
-          ))}
-        </div>
+        <Router>
+          <CardList 
+            path="/"
+            cards={cards}
+            onAdd={handleAdd}
+            onUpdate={handleUpdate}
+            onRemove={handleRemove}
+          />
+          <Practice path="/practice" cards={cards} />
+        </Router>
       </main>
     </div>
   );
